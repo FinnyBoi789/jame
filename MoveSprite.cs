@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class MoveSprite : MonoBehaviour
@@ -10,9 +11,14 @@ public class MoveSprite : MonoBehaviour
     public string left;
     public string right;
 
+    private float speed = 10f;
+    private float horizontal;
+
     public int numJumps = 1;
 
     public Rigidbody2D rb;
+
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +29,8 @@ public class MoveSprite : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("Speed", Mathf.Abs(horizontal));
+
         Vector3 move = new Vector3(0, 0, 0);
 
         if (Input.GetKeyDown(up) && numJumps > 0) 
@@ -31,23 +39,8 @@ public class MoveSprite : MonoBehaviour
             numJumps -= 1;
         }
 
-
-
-        if (Input.GetKey(down))
-        {
-            move = new Vector3(0, -0.03f, 0);
-        }
-
-        if (Input.GetKey(left))
-        {
-            move = new Vector3(-0.03f, 0, 0);
-        }
-
-        if (Input.GetKey(right))
-        {
-            move = new Vector3(0.03f, 0, 0);
-        }
-
+        horizontal = Input.GetAxisRaw("Horizontal");
+        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
         this.transform.Translate(move);
 
     }
