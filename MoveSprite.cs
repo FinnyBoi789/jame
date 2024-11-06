@@ -12,11 +12,11 @@ public class MoveSprite : MonoBehaviour
     public string right;
 
     //boolean for if the player is facing right or not
-    private bool isFacingRight = true;
+    public bool isFacingRight = true;
 
     //wall sliding
     private bool isWallSliding;
-    private float wallSlideSpeed = 2f;
+    private float wallSlideSpeed = 5f;
 
     //wall jumping
     private bool isWallJumping;
@@ -36,6 +36,8 @@ public class MoveSprite : MonoBehaviour
     public Rigidbody2D rb;
     public Transform wallCheck;
     public LayerMask wallLayer;
+
+    public GameObject bullet;
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +67,8 @@ public class MoveSprite : MonoBehaviour
         {
             flip();
         }
+
+        Debug.Log(isWalled());
     }
 
     void FixedUpdate()
@@ -100,6 +104,14 @@ public class MoveSprite : MonoBehaviour
             localScale.x *= -1f;
             transform.localScale = localScale;
         }
+
+        if (!isFacingRight)
+        {
+            bullet.transform.rotation = Quaternion.Euler(0, 0, 180);
+        } else
+        {
+            bullet.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     private bool isWalled()
@@ -109,10 +121,10 @@ public class MoveSprite : MonoBehaviour
 
     private void wallSlide()
     {
-        if(isWalled() && horizontal != 0f)
+        if(isWalled())
         {
             isWallSliding = true;
-            rb.velocity = new Vector2(rb.velocity.x / 10, Mathf.Clamp(rb.velocity.y, -wallSlideSpeed, float.MaxValue));
+            rb.velocity = new Vector2(rb.velocity.x / 10, -wallSlideSpeed);
         }
         else
         {
