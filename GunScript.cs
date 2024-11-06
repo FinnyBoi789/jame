@@ -6,6 +6,7 @@ public class GunScript : MonoBehaviour
 {
     public Transform firePoint;
     public GameObject bulletPrefab;
+    public GameObject cube;
 
     bool cooldown = false;
 
