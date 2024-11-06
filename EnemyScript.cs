@@ -12,6 +12,7 @@ public class EnemyScript : MonoBehaviour
 
     void Start()
     {
+
     }
 
     public void takeDamage(int damage)
@@ -24,7 +25,6 @@ public class EnemyScript : MonoBehaviour
 
         void die()
         {
-            Instantiate(death, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
